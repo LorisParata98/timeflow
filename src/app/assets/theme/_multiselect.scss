@@ -1,0 +1,47 @@
+.p-multiselect {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+}
+
+.p-multiselect-panel {
+  background-color: #242424;
+  border: none;
+  border: 0 none;
+  border-radius: 6px;
+  color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-empty-message {
+  padding: 0.75rem 1.25rem;
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+}
+
+.p-multiselect-panel .p-multiselect-header {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #202020;
+  border: none;
+  margin: 0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  border: 0 none;
+  color: #ffffffb1;
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  color: var(--text-color);
+  background: rgba(239, 246, 255, 0.2);
+}

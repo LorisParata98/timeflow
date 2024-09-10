@@ -1,0 +1,8 @@
+.p-inputswitch .p-inputswitch-slider {
+  border: 1px solid var(--neutral-grey-02, #b5ccd1);
+  background: var(--neutral-grey-03, #f9feff);
+}
+
+.p-inputswitch .p-inputswitch-slider::before {
+  background: var(--secondary-500, #206db5);
+}

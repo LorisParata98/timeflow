@@ -1,0 +1,36 @@
+p-calendar.p-calendar-clearable .p-calendar-clear-icon {
+
+  right: 72px;
+  width: 32px;
+  color: var(--neutral-white);
+}
+
+.p-calendar {
+  width: 100%;
+  border-radius: var(--border-radius-small, 8px);
+
+
+
+}
+
+.p-calendar button.p-datepicker-trigger {
+  background-color: var(--secondary-500, #206db5);
+  border-color: var(--secondary-500, #206db5);
+  border-top-right-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+
+  min-width: 0;
+  width: 64px;
+}
+
+.p-calendar button.p-datepicker-trigger:hover {
+  background-color: var(--secondary-800, #13509d);
+  border-color: var(--secondary-800, #13509d);
+  border-top-right-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+}
+
+.p-datepicker-touch-ui,
+.p-calendar .p-datepicker-touch-ui {
+  min-width: 40vw !important;
+}

@@ -1,0 +1,19 @@
+p-inputnumber {
+  &.p-inputtext {
+    border: none;
+    padding: 0;
+  }
+
+  .p-component {
+    width: 100%;
+  }
+
+  .p-inputnumber {
+    &.border-noround-left {
+      .p-inputnumber-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

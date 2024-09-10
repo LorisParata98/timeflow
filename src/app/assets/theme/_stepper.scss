@@ -1,0 +1,52 @@
+.p-steps .p-steps-item .p-menuitem-link {
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 6px;
+  background: transparent
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  color: var(--text-color);
+  border: 1px solid #e9ecef;
+  background: var(--bg-backoffice);
+  min-width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: large;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+  margin-top: 0.5rem;
+  color: var(--text-color);
+}
+
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem #BFDBFE;
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: var(--secondary-900);
+  color: var(--text-color);
+  font-size: large;
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-title {
+  font-weight: 700;
+  font-size: large;
+  color: var(--text-color);
+}
+
+.p-steps .p-steps-item:before {
+  content: " ";
+  border-top: 1px solid #dee2e6;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+}

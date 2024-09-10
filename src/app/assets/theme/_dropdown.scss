@@ -1,0 +1,25 @@
+.p-dropdown {
+  width: 100%;
+
+  .p-dropdown-trigger {
+    background-color: var(--neutral-grey-00);
+    color: var(--neutral-white);
+  }
+
+  .p-dropdown-clear-icon {
+    right: 3.5rem
+  }
+
+  &.border-noround-right {
+    .p-dropdown-trigger {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  }
+
+  &.shrink-trigger {
+    .p-dropdown-trigger {
+      width: 2rem;
+    }
+  }
+}
