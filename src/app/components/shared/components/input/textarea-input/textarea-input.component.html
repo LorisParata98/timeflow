@@ -1,0 +1,29 @@
+<app-input-wrapper
+  [label]="label()"
+  [for]="for()"
+  [required]="required()"
+  [errors]="errors"
+>
+  @if(textMode()){
+  <div class="break-spaces">
+    {{ value() }}
+  </div>
+  }@else {
+  <textarea
+    pInputTextarea
+    [(ngModel)]="value"
+    [attr.aria-labelledby]="for()"
+    [placeholder]="placeholder()"
+    [attr.aria-placeholder]="placeholder()"
+    [ngClass]="{
+      'ng-invalid ng-dirty': isOnError,
+      'readonly-input': readonly()
+    }"
+    (input)="onInputChange($event)"
+    (blur)="onTouched()"
+    [rows]="rows()"
+    [id]="for()"
+    [disabled]="isDisabled()"
+  ></textarea>
+  }
+</app-input-wrapper>

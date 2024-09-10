@@ -1,0 +1,27 @@
+<div class="flex flex-column info" [ngClass]="{ 'flex-row': isFlex() }">
+  @if(!hideLabel() && label()){
+  <div
+    class="label-container mb-2"
+    [ngClass]="{ flex: isFlex(), 'mr-3': isFlex() }"
+  >
+    <label
+      class="label"
+      [attr.aria-label]="label()"
+      [for]="for()"
+      [ngClass]="{ dark: darkTheme() }"
+    >
+      {{ label() }}
+      @if(required()){ <span class="text-red-500 font-bold">&nbsp;*</span> }
+    </label>
+  </div>
+  }
+
+  <ng-content></ng-content>
+
+  @if(label()){
+  <app-input-error-label
+    [label]="label()!"
+    [errors]="errors()"
+  ></app-input-error-label>
+  }
+</div>

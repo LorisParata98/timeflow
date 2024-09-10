@@ -1,0 +1,71 @@
+<div
+  class="w-full flex flex-column p-2 md:p-8 h-screen justify-content-center"
+  id="login-page"
+>
+  <div
+    class="w-full flex flex-wrap flex-column justify-content-center align-items-center gap-2"
+  >
+    <div
+      class="flex flex-column justify-content-center align-items-center gap-2"
+    >
+      <img src="/logo.png" alt="logo" class="logo" />
+      <h1>Esercizio 1</h1>
+    </div>
+    <div class="card flex flex-column gap-4" style="min-width: 420px">
+      <div class="flex align-items-center justify-between">
+        <h2>Accedi</h2>
+      </div>
+
+      @if (!!loginForm()) {
+
+      <form
+        [formGroup]="loginForm()!"
+        (submit)="onLoginSubmit()"
+        class="flex flex-column gap-4 mt-4"
+      >
+        <app-text-input
+          for="username"
+          autocomplete="username"
+          formControlName="email"
+          [label]="'Email'"
+          [control]="loginForm()!.get('email')!"
+        ></app-text-input>
+
+        <app-input-password
+          for="password"
+          autocomplete="current-password"
+          formControlName="password"
+          [label]="'Password'"
+          [control]="loginForm()!.get('password')!"
+          type="password"
+        ></app-input-password>
+
+        <div class="flex flex-column gap-8 mt-4">
+          <p-button
+            [label]="'Accedi'"
+            styleClass="w-full"
+            type="submit"
+          ></p-button>
+        </div>
+
+        <div class="flex gap-2 w-full">
+          <div class="flex-grow-1 mt-2">
+            <hr />
+          </div>
+          <div class="mt-1">Non sei ancora iscritto?</div>
+          <div class="flex-grow-1 mt-2">
+            <hr />
+          </div>
+        </div>
+
+        <p-button
+          [label]="'Registrati ora'"
+          styleClass="w-full p-button-secondary"
+          (onClick)="goToEnrollmentPage()"
+          type="button"
+        ></p-button>
+      </form>
+      }
+    </div>
+  </div>
+</div>

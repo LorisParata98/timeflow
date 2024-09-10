@@ -1,0 +1,53 @@
+<app-input-wrapper
+  [label]="label()"
+  [for]="for()"
+  [required]="required()"
+  [errors]="errors"
+>
+  @if(textMode()){
+  {{ getLabelFromValue(value) }}
+  }@else {
+  <div class="flex align-items-center">
+    <ng-content select="[left]"></ng-content>
+    @if(readonly()){
+    <input
+      pInputText
+      [id]="for()"
+      [value]="readonlyLabel"
+      [attr.aria-labelledby]="for()"
+      [placeholder]="placeholder() ?? ''"
+      [attr.aria-placeholder]="placeholder()"
+      [attr.aria-required]="required()"
+      [readonly]="true"
+      [attr.aria-readonly]="true"
+      class="readonly-input"
+    />
+    }@else {
+    <p-dropdown
+      [class]="class()"
+      [id]="for()"
+      [styleClass]="getInputClasses()"
+      [options]="availableOptions()"
+      [(ngModel)]="value"
+      [optionLabel]="optionLabel()"
+      [optionValue]="optionValue()"
+      [filter]="filter()"
+      [filterBy]="filterBy()"
+      [showClear]="showClear()"
+      [placeholder]="placeholder()"
+      [autoDisplayFirst]="false"
+      ariaLabelledBy="for "
+      [appendTo]="'body'"
+      [readonly]="readonly()"
+      [disabled]="isDisabled()"
+      [ngClass]="{ 'ng-invalid ng-dirty': isOnError, 'w-full': true }"
+      (onShow)="onShow()"
+      (onChange)="onInputChange($event)"
+      (onBlur)="onTouched()"
+    >
+    </p-dropdown>
+    }
+  </div>
+
+  }
+</app-input-wrapper>

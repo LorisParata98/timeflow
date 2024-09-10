@@ -1,0 +1,96 @@
+<p-toolbar styleClass="top-toolbar">
+  <div class="flex gap-4 justify-between md:justify-start">
+    @if(menuItems().length>0){
+    <p-button icon="true" styleClass="menu-btn" (click)="toggleSideBar()">
+      <i class="pi pi-menu"></i>
+    </p-button>
+    }
+    <a class="flex align-items-center" routerLink="/dashboard">
+      <img alt="logo" [src]="'assets/images/dashboard_logo.png'" height="46" />
+    </a>
+  </div>
+  <div class="right-side-container">
+    <div class="logged-user-container hidden sm:flex">
+      <div class="logged-user-data">
+        <div class="profile">
+          <span class="upper">{{
+            userData()!.nome![0] + userData()!.cognome![0]
+          }}</span>
+        </div>
+        <div class="flex flex-column gap-1">
+          <h4>{{ userData()!.nome }} {{ userData()!.cognome }}</h4>
+          <div>{{ companyName() }}</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <button
+        pButton
+        class="p-button p-button-secondary p-button-text"
+        (click)="userMenuOp.toggle($event)"
+      >
+        <i class="pi pi-chevron-down"></i>
+      </button>
+      <p-overlayPanel #userMenuOp styleClass="user-menu-panel">
+        <ng-template pTemplate="content">
+          <div
+            class="item flex align-items-center gap-4 cursor-pointer"
+            (click)="onLogoutClick()"
+          >
+            <div class="item__icon border-circle">
+              <div class="item__icon__wrapper">
+                <i class="pi pi-out"></i>
+              </div>
+            </div>
+            <div class="item__label cursor-pointer">
+              <span class="ml-2"> Logout </span>
+            </div>
+          </div>
+        </ng-template>
+      </p-overlayPanel>
+    </div>
+  </div>
+</p-toolbar>
+
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  [showCloseIcon]="false"
+  styleClass="w-21rem"
+>
+  <ng-template pTemplate="header">
+    <div class="w-full flex justify-between align-items-center sidebar-title">
+      <img
+        class="w-full object-scale-down"
+        src="./assets/logo.png"
+        height="42"
+        alt="logo"
+        id="logo"
+        role="img"
+      />
+      <p-button
+        (click)="closeSideBar()"
+        icon="pi pi-chevron-left"
+        styleClass="p-button-text p-button-lg"
+      ></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content" styleClass="p-0">
+    <p-tree class="w-full" [value]="menuItems()" styleClass="side-menu">
+      <ng-template let-node pTemplate="default">
+        <div
+          class="flex align-items-center cursor-pointer"
+          (click)="node?.command()"
+        >
+          @if(!node.isChild ){
+          <i [class]="'menu-icon pi ' + node.icon!"></i>
+
+          }
+          <b class="ml-3" [ngClass]="{ 'my-2': node.isChild }">{{
+            node.label
+          }}</b>
+        </div>
+      </ng-template>
+    </p-tree>
+  </ng-template>
+  <ng-template pTemplate="footer"> </ng-template>
+</p-sidebar>
