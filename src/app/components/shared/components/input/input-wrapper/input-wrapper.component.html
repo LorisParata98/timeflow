@@ -20,7 +20,7 @@
 
   @if(label()){
   <app-input-error-label
-    [label]="label()!"
+    [label]="label() ?? '&nbsp;'"
     [errors]="errors()"
   ></app-input-error-label>
   }

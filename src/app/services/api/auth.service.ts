@@ -2,13 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
-import { tap } from 'rxjs/operators';
-import { StorageService } from '../utils/storage.service';
-import { AuthModel, UserRole } from '../../models/auth.model';
-import { ApiResponse } from '../../models/common.model';
+import { of, tap, throwError } from 'rxjs';
+import { RegisteredUser, UserBaseModel } from '../../models/user.model';
 import { RootRoutes } from '../../utils/root-routes';
 import { EncryptService } from '../utils/encrypt.service';
+import { StorageService } from '../utils/storage.service';
 
 export const authStorageKey = 'authData';
 @Injectable({
@@ -24,67 +22,78 @@ export class AuthService {
     private _http: HttpClient
   ) {}
 
-  get authData(): AuthModel | null {
+  get authData(): RegisteredUser | null {
     const authData =
       sessionStorage.getItem(authStorageKey) ||
       localStorage.getItem(authStorageKey);
     return authData ? JSON.parse(authData) : null;
   }
 
-  set authData(res: AuthModel) {
-    let info: AuthModel = {
-      refreshToken: res.refreshToken,
-      token: res.token,
-      redirectTo: res.redirectTo,
-    };
-
-    const tokenData: any = this.decodeToken(res.token);
-    if (tokenData) {
-      info = {
-        ...info,
-        userInfo: {
-          nome: tokenData['FirstName'],
-          cognome: tokenData['LastName'],
-          email: tokenData['email'],
-          role: tokenData['Role'] == 'System' ? UserRole.System : UserRole.User,
-          userId: +tokenData['unique_name'],
-        },
-      };
-    }
-    if (info) {
-      this._storageService.set(authStorageKey, info);
-    }
+  set authData(info: RegisteredUser) {
+    if (info) this._storageService.set(authStorageKey, info);
   }
 
   public login(email: string, password: string) {
-    return this._http
-      .post<ApiResponse<AuthModel>>(`${this._baseUrl}`, {
-        email,
-        password: this._encryptService.encrypt(password),
-      })
-      .pipe(
-        tap((data) => {
-          this.authData = data.result;
-        })
+    let users: RegisteredUser[] = this._storageService.get('users');
+
+    if (!users) {
+      this._storageService.set('users', []);
+    }
+    users = this._storageService.get('users');
+    if (users.length > 0) {
+      const foundUser = users.find(
+        (el) =>
+          el.email === email &&
+          this._encryptService.decrypt(el.password) === password
       );
+      if (foundUser) {
+        const response = {
+          error: false,
+          result: foundUser,
+        };
+        return of(response).pipe(tap((data) => (this.authData = data.result)));
+      } else {
+        return throwError(() => new Error('Credenziali errate'));
+      }
+    } else {
+      return throwError(() => new Error('Nessun utente presente'));
+    }
   }
 
-  /**
-   * Logs out the user and clear authData.
-   * @return {Observable<boolean>} True if the user was logged out successfully.
-   */
+  public signUp(user: UserBaseModel) {
+    let users: RegisteredUser[] = this._storageService.get('users');
+    const encryptPwd = this._encryptService.encrypt(user.password);
+    if (!users) {
+      this._storageService.set('users', []);
+    }
+    users = this._storageService.get('users');
+
+    if (users.length > 0) {
+      const foundUser = users.find((el) => el.email === user.email);
+      if (foundUser) {
+        return throwError(() => new Error('Utente già presente trovato'));
+      } else {
+        users.push({
+          ...user,
+          password: encryptPwd,
+          id: users.length > 0 ? users[users.length - 1].id + 1 : 0,
+        });
+        this._storageService.set('users', users);
+        return of(true);
+      }
+    } else {
+      users.push({
+        ...user,
+        password: encryptPwd,
+        id: users.length > 0 ? users[users.length - 1].id + 1 : 0,
+      });
+      this._storageService.set('users', users);
+      return of(true);
+    }
+  }
+
   public logout() {
     this._storageService.clear();
     this._router.navigate([RootRoutes.HOME]);
-  }
-
-  public decodeToken(token: string): any {
-    try {
-      const jwtInfo = jwtDecode(token);
-      return jwtInfo;
-    } catch (error) {
-      console.error('Error decoding token', error);
-      return undefined;
-    }
   }
 }

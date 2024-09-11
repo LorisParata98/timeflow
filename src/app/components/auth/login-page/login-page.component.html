@@ -1,71 +1,125 @@
 <div
-  class="w-full flex flex-column p-2 md:p-8 h-screen justify-content-center"
+  class="w-full flex flex-column p-2 md:p-8 justify-content-center"
   id="login-page"
 >
   <div
     class="w-full flex flex-wrap flex-column justify-content-center align-items-center gap-2"
   >
-    <div
-      class="flex flex-column justify-content-center align-items-center gap-2"
-    >
-      <img src="/logo.png" alt="logo" class="logo" />
+    <div class="flex flex-column justify-content-center align-items-center">
+      <img src="/logo.png" alt="logo" class="logo object-fit" />
       <h1>Esercizio 1</h1>
     </div>
-    <div class="card flex flex-column gap-4" style="min-width: 420px">
-      <div class="flex align-items-center justify-between">
-        <h2>Accedi</h2>
-      </div>
-
-      @if (!!loginForm()) {
-
-      <form
-        [formGroup]="loginForm()!"
-        (submit)="onLoginSubmit()"
-        class="flex flex-column gap-4 mt-4"
+    <div class="border-round-md bg-white flex w-min" style="max-width: 1280px">
+      <div
+        class="flex flex-column bg-cover"
+        style="min-width: 220px"
+        id="card-bg"
+      ></div>
+      <div
+        class="w-full card flex justify-content-center form"
+        [ngClass]="{ registration: isSignUp() }"
       >
-        <app-text-input
-          for="username"
-          autocomplete="username"
-          formControlName="email"
-          [label]="'Email'"
-          [control]="loginForm()!.get('email')!"
-        ></app-text-input>
-
-        <app-input-password
-          for="password"
-          autocomplete="current-password"
-          formControlName="password"
-          [label]="'Password'"
-          [control]="loginForm()!.get('password')!"
-          type="password"
-        ></app-input-password>
-
-        <div class="flex flex-column gap-8 mt-4">
-          <p-button
-            [label]="'Accedi'"
-            styleClass="w-full"
-            type="submit"
-          ></p-button>
-        </div>
-
-        <div class="flex gap-2 w-full">
-          <div class="flex-grow-1 mt-2">
-            <hr />
+        <div class="w-full flex flex-column justify-content-center">
+          <div class="flex align-items-center">
+            <h2>{{ isSignUp() ? "Registrazione" : "Login" }}</h2>
           </div>
-          <div class="mt-1">Non sei ancora iscritto?</div>
-          <div class="flex-grow-1 mt-2">
-            <hr />
-          </div>
-        </div>
 
-        <p-button
-          [label]="'Registrati ora'"
-          styleClass="w-full p-button-secondary"
-          (onClick)="goToEnrollmentPage()"
-          type="button"
-        ></p-button>
-      </form>
-      }
+          @if (!!loginForm()) {
+
+          <form
+            [formGroup]="loginForm()!"
+            (submit)="onLoginSubmit()"
+            class="flex w-full flex-column gap-4 mt-4"
+          >
+            <div class="grid">
+              @if(isSignUp()){
+
+              <app-text-input
+                [ngClass]="{
+                'col-12': !isSignUp(),
+                 'col-6': isSignUp(),
+              }"
+                for="username"
+                autocomplete="username"
+                formControlName="username"
+                [label]="'Nome utente'"
+                [control]="loginForm()!.get('username')!"
+              ></app-text-input>
+              }
+              <app-text-input
+                [ngClass]="{
+                'col-12': !isSignUp(),
+                 'col-6': isSignUp(),
+              }"
+                for="email"
+                autocomplete="email"
+                formControlName="email"
+                [label]="'Email'"
+                [control]="loginForm()!.get('email')!"
+              ></app-text-input>
+
+              <app-input-password
+                [ngClass]="{
+                'col-12': !isSignUp(),
+                 'col-6': isSignUp(),
+              }"
+                for="password"
+                autocomplete="current-password"
+                formControlName="password"
+                [label]="'Password'"
+                [control]="loginForm()!.get('password')!"
+                type="password"
+              ></app-input-password>
+
+              @if(isSignUp()){
+              <app-dropdown
+                [ngClass]="{
+                'col-12': !isSignUp(),
+                 'col-6': isSignUp(),
+              }"
+                [options]="userTypes()"
+                [showClear]="true"
+                [label]="'Tipologia utente'"
+                [control]="loginForm()!.get('userType')!"
+                formControlName="userType"
+              ></app-dropdown>
+              }
+            </div>
+
+            <div class="flex flex-column gap-8 mt-4">
+              <p-button
+                [label]="isSignUp() ? 'Registrati' : 'Accedi'"
+                styleClass="w-full"
+                type="submit"
+              ></p-button>
+            </div>
+
+            <div class="flex gap-2 w-full">
+              <div class="flex-grow-1 mt-2">
+                <hr />
+              </div>
+              <div class="mt-1">
+                {{
+                  isSignUp()
+                    ? "Sei già registrato?"
+                    : "Non sei ancora iscritto?"
+                }}
+              </div>
+              <div class="flex-grow-1 mt-2">
+                <hr />
+              </div>
+            </div>
+
+            <p-button
+              [label]="isSignUp() ? 'Accedi ora' : 'Registrati ora'"
+              styleClass="w-full p-button-secondary"
+              (onClick)="goToEnrollmentPage()"
+              type="button"
+            ></p-button>
+          </form>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </div>

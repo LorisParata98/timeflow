@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-import { User } from '../../models/user.model';
 import { authStorageKey } from '../api/auth.service';
 
 @Injectable({
@@ -10,10 +8,6 @@ import { authStorageKey } from '../api/auth.service';
 })
 export class StorageService {
   storage: Storage | null;
-
-  public me: BehaviorSubject<User | undefined> = new BehaviorSubject<
-    User | undefined
-  >(undefined);
 
   constructor(private _http: HttpClient) {
     this.storage = this.getStorage();

@@ -14,6 +14,8 @@ export class FormControlValidationService {
         return 'Il campo ' + field + ' è obbligatorio';
       case 'passwordsAreNotEquals':
         return 'Le password non corrispondono';
+      case 'email':
+        return "Il formato dell'email non è valido";
       case 'passwordInvalidCharacters':
         return 'La password contiene caratteri non validi';
       default:

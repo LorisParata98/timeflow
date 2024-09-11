@@ -1,4 +1,5 @@
-import { Component, DestroyRef, signal, viewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,25 +7,29 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SelectItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { UserType } from '../../../models/user.model';
 import {
   AuthService,
   authStorageKey,
 } from '../../../services/api/auth.service';
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
 import { StorageService } from '../../../services/utils/storage.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RootRoutes } from '../../../utils/root-routes';
-import { ButtonModule } from 'primeng/button';
-import { TextInputComponent } from '../../shared/components/input/text-input/text-input.component';
+import { DropdownComponent } from '../../shared/components/input/dropdown/dropdown.component';
 import { InputPasswordComponent } from '../../shared/components/input/input-password/input-password.component';
+import { TextInputComponent } from '../../shared/components/input/text-input/text-input.component';
 
 @Component({
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     ButtonModule,
     TextInputComponent,
     InputPasswordComponent,
+    DropdownComponent,
   ],
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -32,19 +37,29 @@ import { InputPasswordComponent } from '../../shared/components/input/input-pass
 })
 export class LoginPageComponent {
   public loginForm = signal<FormGroup | undefined>(undefined);
-
+  public isSignUp = signal<boolean>(false);
   private _storage = signal<Storage | null | undefined>(undefined);
+
+  public userTypes = signal<SelectItem[]>([]);
 
   constructor(
     private _router: Router,
     private _fb: FormBuilder,
     private _authService: AuthService,
     private _operationStatusHandler: OperationStatusHandler,
-
-    private _destroyRef: DestroyRef,
     private _storageService: StorageService
   ) {
-    this.loginForm.set(this._getForm(false));
+    this.loginForm.set(this._getForm());
+    this.userTypes.set([
+      {
+        label: 'Cliente',
+        value: UserType.Customer,
+      },
+      {
+        label: 'Fornitore',
+        value: UserType.Supplier,
+      },
+    ]);
   }
 
   ngOnInit() {
@@ -54,43 +69,68 @@ export class LoginPageComponent {
     }
   }
 
-  private _getForm(remember: boolean): FormGroup {
+  private _getForm(): FormGroup {
     return this._fb.group({
+      username: [null],
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required]],
-      newPassword: [null],
+      userType: [null],
     });
   }
 
   public onLoginSubmit() {
     this.loginForm()!.markAllAsTouched();
     if (this.loginForm()!.valid) {
-      this._authService
-        .login(
-          this.loginForm()!.get('email')?.value,
-          this.loginForm()!.get('password')?.value
-        )
-        .subscribe({
-          next: (res) => {
+      const formData = this.loginForm()?.getRawValue();
+      if (this.isSignUp()) {
+        this._authService.signUp(formData).subscribe({
+          next: (_) => {
+            this._operationStatusHandler.success(
+              'Registrazione effettuata con successo, effettua il login e accedi alla piattaforma'
+            );
+            this.isSignUp.set(false);
+            this.loginForm.update((oldValue) => {
+              oldValue?.reset();
+              return oldValue;
+            });
+          },
+          error: this._onLoginError.bind(this),
+        });
+      } else {
+        this._authService.login(formData.email, formData.password).subscribe({
+          next: (_) => {
+            this._operationStatusHandler.success(
+              'Login effettuato con successo!'
+            );
             this._handleLogin();
           },
           error: this._onLoginError.bind(this),
         });
+      }
     }
   }
 
-  private async _onLoginError(event: HttpErrorResponse) {
-    if (event.error && event.error.error)
-      this._operationStatusHandler.error(
-        'Credenziali errate, si prega di riprovare'
-      );
+  private async _onLoginError(msg: any) {
+    this._operationStatusHandler.error(msg.message);
   }
 
-  public goToEnrollmentPage() {}
+  public goToEnrollmentPage() {
+    this.isSignUp.update((oldValue) => !oldValue);
+    if (this.isSignUp()) {
+      this.loginForm.update((oldValue) => {
+        oldValue
+          ?.get('username')
+          ?.setValidators(this.isSignUp() ? [Validators.required] : []);
+        oldValue
+          ?.get('userType')
+          ?.setValidators(this.isSignUp() ? [Validators.required] : []);
+        oldValue?.updateValueAndValidity();
+        return oldValue;
+      });
+    }
+  }
 
   private _handleLogin() {
-    if (this._authService.authData?.redirectTo == 0) {
-      this._router.navigate([RootRoutes.DASHBOARD]);
-    }
+    this._router.navigate([RootRoutes.DASHBOARD]);
   }
 }

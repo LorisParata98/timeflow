@@ -1,13 +1,13 @@
 <p-toast
-  position="bottom-center"
-  key="bottom-feedback"
+  position="top-right"
+  key="top-feedback"
   [baseZIndex]="5000"
   [breakpoints]="{ '920px': { width: '90%' } }"
 >
-  <ng-template let-message pTemplate="message">
+  <ng-template let-info pTemplate="message">
     <div class="flex flex-columnumn items-start" style="flex: 1">
       <div class="font-medium text-lg my-3 text-900">
-        {{ message.summary }}
+        {{ info.detail }}
       </div>
     </div>
   </ng-template>

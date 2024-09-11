@@ -13,6 +13,7 @@ export class OperationStatusHandler {
 
     return this.messagesService.add({
       severity: 'success',
+      key: 'top-feedback',
       summary: 'Operazione completata con successo',
       detail: msg,
       life: life || undefined,
@@ -21,11 +22,11 @@ export class OperationStatusHandler {
   }
 
   public error(message?: string) {
-    let msg = message;
     return this.messagesService.add({
+      key: 'top-feedback',
       severity: 'error',
       summary: 'Attenzione',
-      detail: msg,
+      detail: message,
     });
   }
 }
