@@ -8,6 +8,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SidebarModule } from 'primeng/sidebar';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TreeModule } from 'primeng/tree';
+import { RegisteredUser } from '../../../models/user.model';
 import { AuthService } from '../../../services/api/auth.service';
 import { LayoutService } from '../../../services/utils/app.layout.service';
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
@@ -35,7 +36,7 @@ export class AppTopBarComponent {
 
   public sidebarVisible = signal<boolean>(false);
   public menuItems = signal<any[]>([]);
-  public userData = signal<any | undefined>(undefined);
+  public userData = signal<RegisteredUser | undefined>(undefined);
   public items = signal<MenuItem[]>([]);
 
   public isUserDmg = signal<boolean>(false);

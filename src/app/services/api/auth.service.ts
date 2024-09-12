@@ -22,11 +22,11 @@ export class AuthService {
     private _http: HttpClient
   ) {}
 
-  get authData(): RegisteredUser | null {
+  get authData(): RegisteredUser | undefined {
     const authData =
       sessionStorage.getItem(authStorageKey) ||
       localStorage.getItem(authStorageKey);
-    return authData ? JSON.parse(authData) : null;
+    return authData ? JSON.parse(authData) : undefined;
   }
 
   set authData(info: RegisteredUser) {

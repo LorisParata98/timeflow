@@ -22,13 +22,12 @@ export class LoaderStatusService {
   }
 
   hide() {
-    if (this._runningRequests > 0) this._runningRequests--;
-    if (this._runningRequests <= 0) {
-      this.notify.next(false);
-    }
+    //timeout che simula la durata della chiamata
+    setTimeout(() => {
+      if (this._runningRequests > 0) this._runningRequests--;
+      if (this._runningRequests <= 0) {
+        this.notify.next(false);
+      }
+    }, 500);
   }
-
-  // onNotify(event: boolean) {
-  //   this.notify.next(event);
-  // }
 }

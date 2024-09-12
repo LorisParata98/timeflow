@@ -14,3 +14,7 @@ export interface Environment {
   production: boolean;
   publicKey: string;
 }
+
+export interface SearchPayload {
+  searchText?: string;
+}

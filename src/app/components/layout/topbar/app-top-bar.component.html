@@ -13,41 +13,32 @@
       <img alt="logo" [src]="'/logo.png'" height="46" />
     </a>
   </div>
-  @if(userData()){
-  <div class="right-side-container"></div>
-  <div class="logged-user-container hidden sm:flex">
-    <div class="logged-user-data">
-      <div class="profile">
-        <span class="upper">{{
-          userData().nome![0] + userData().cognome![0]
-        }}</span>
-      </div>
-      <div class="flex flex-column gap-1">
-        <h4>{{ userData().nome }} {{ userData().cognome }}</h4>
-      </div>
-    </div>
-    <div class="divider"></div>
+  @if(!!userData()&& userData()?.username){
+  <div class="right-side-container">
+    <div class="logged-user-container">
+      <h4>{{ userData()!.username }}</h4>
 
-    <button class="p-button p-button-text" (click)="userMenuOp.toggle($event)">
-      <i class="pi pi-chevron-down"></i>
-    </button>
-    <p-overlayPanel #userMenuOp styleClass="user-menu-panel">
-      <ng-template pTemplate="content">
-        <div
-          class="item flex align-items-center gap-4 cursor-pointer"
-          (click)="onLogoutClick()"
-        >
-          <div class="item__icon border-circle">
-            <div class="item__icon__wrapper">
-              <i class="pi pi-out"></i>
+      <div class="divider"></div>
+
+      <button
+        class="p-button p-button-text"
+        (click)="userMenuOp.toggle($event)"
+      >
+        <i class="pi pi-chevron-down"></i>
+      </button>
+      <p-overlayPanel #userMenuOp styleClass="user-menu-panel">
+        <ng-template pTemplate="content">
+          <div
+            class="item flex align-items-center gap-4 cursor-pointer"
+            (click)="onLogoutClick()"
+          >
+            <div class="item__label cursor-pointer">
+              <span class="ml-2"> Logout </span>
             </div>
           </div>
-          <div class="item__label cursor-pointer">
-            <span class="ml-2"> Logout </span>
-          </div>
-        </div>
-      </ng-template>
-    </p-overlayPanel>
+        </ng-template>
+      </p-overlayPanel>
+    </div>
   </div>
 
   }
