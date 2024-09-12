@@ -1,10 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
@@ -12,13 +6,12 @@ import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SidebarModule } from 'primeng/sidebar';
-import { SpeedDialModule } from 'primeng/speeddial';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TreeModule } from 'primeng/tree';
-import { StorageService } from '../../../services/utils/storage.service';
-import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
 import { AuthService } from '../../../services/api/auth.service';
 import { LayoutService } from '../../../services/utils/app.layout.service';
+import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
+import { StorageService } from '../../../services/utils/storage.service';
 
 export interface CombineMenu {}
 @Component({
@@ -30,7 +23,6 @@ export interface CombineMenu {}
     OverlayPanelModule,
     SidebarModule,
     TreeModule,
-    SpeedDialModule,
   ],
   selector: 'app-top-bar',
   styleUrls: ['./app-top-bar.component.scss'],
@@ -54,7 +46,7 @@ export class AppTopBarComponent {
     private _router: Router,
     private _layoutService: LayoutService
   ) {
-    this.userData.set(this._authService.authData?.userInfo!);
+    this.userData.set(this._authService.authData);
     this.menuItems.set(this._layoutService.getMenuItems());
   }
 

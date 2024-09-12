@@ -2,7 +2,6 @@ export enum RootRoutes {
   HOME = '',
   LOGIN = 'login',
   SIGNUP = 'signup',
-  RESET_PASSWORD = 'resetpassword',
+  REVIEWS = 'reviews',
   DASHBOARD = 'dashboard',
-  APN = 'apn',
 }

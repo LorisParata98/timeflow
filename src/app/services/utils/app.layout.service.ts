@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from '../api/auth.service';
-import { RootRoutes } from '../../utils/root-routes';
 import { MenubarItem } from '../../models/menu-bar.model';
+import { RootRoutes } from '../../utils/root-routes';
+import { AuthService } from '../api/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,50 +16,51 @@ export class LayoutService {
   constructor(private _router: Router, private _authService: AuthService) {
     this.menuItems = [
       {
-        label: 'menu.login',
+        label: 'Login',
         icon: 'login',
-        id: 'login',
-        disabled: true,
+        id: 'es1',
+
         command: () => {
-          this._router.navigate([RootRoutes.LOGIN]);
+          this._router.navigate(['/']);
         },
-        visible: !this._authService.authData,
+      },
+      {
+        label: 'Dashboard',
+        icon: 'dashboard',
+        id: 'es2',
+
+        command: () => {
+          this._router.navigate([RootRoutes.DASHBOARD]);
+        },
+      },
+      {
+        label: 'Recensioni',
+        icon: 'star',
+        id: 'es3',
+
+        command: () => {
+          this._router.navigate([RootRoutes.REVIEWS]);
+        },
       },
 
       {
-        label: 'menu.logout',
+        label: 'Logout',
         icon: 'logout',
         id: 'logout',
-        disabled: false,
+
         command: () => {
           this._authService.logout();
-          this._router.navigate([RootRoutes.LOGIN]);
+          this._router.navigate(['/']);
         },
-        visible: !!this._authService.authData,
       },
     ];
   }
 
   getMenuItems() {
-    const userInfo = this._authService.authData?.userInfo;
-
-    return this.menuItems
-      .map((item) => {
-        const newItem = { ...item };
-        if (newItem.id)
-          if (newItem.children) {
-            newItem.children = newItem.children.filter((child) => {
-              if (typeof child.visible === 'function') {
-                return child.visible();
-              } else {
-                return true;
-              }
-            });
-          }
-        return newItem; //Restituisce l'elemento corrente con i children filtrati (se presenti).
-      })
-      .filter((item) => {
-        // return item.roles.includes(role!);
-      });
+    const userInfo = this._authService.authData;
+    return this.menuItems.filter((item) => {
+      return item;
+      // return item.roles.includes(role!);
+    });
   }
 }
