@@ -18,8 +18,19 @@
   .form {
     width: 100%;
     min-width: 320px;
+    transition: min-width 0.4s ease; /* Aggiungi la transizione qui */
     &.registration {
       min-width: 640px;
+    }
+  }
+  ::ng-deep {
+    p-button {
+      max-width: 320px;
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
     }
   }
 }

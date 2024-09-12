@@ -86,36 +86,35 @@
               }
             </div>
 
-            <div class="flex flex-column gap-8 mt-4">
+            <div class="flex flex-column gap-4 mt-4 align-items-center">
               <p-button
                 [label]="isSignUp() ? 'Registrati' : 'Accedi'"
-                styleClass="w-full"
                 type="submit"
               ></p-button>
-            </div>
 
-            <div class="flex gap-2 w-full">
-              <div class="flex-grow-1 mt-2">
-                <hr />
+              <div class="flex gap-2 w-full">
+                <div class="flex-grow-1 mt-2">
+                  <hr />
+                </div>
+                <div class="mt-1">
+                  {{
+                    isSignUp()
+                      ? "Sei già registrato?"
+                      : "Non sei ancora iscritto?"
+                  }}
+                </div>
+                <div class="flex-grow-1 mt-2">
+                  <hr />
+                </div>
               </div>
-              <div class="mt-1">
-                {{
-                  isSignUp()
-                    ? "Sei già registrato?"
-                    : "Non sei ancora iscritto?"
-                }}
-              </div>
-              <div class="flex-grow-1 mt-2">
-                <hr />
-              </div>
-            </div>
 
-            <p-button
-              [label]="isSignUp() ? 'Accedi ora' : 'Registrati ora'"
-              styleClass="w-full p-button-secondary"
-              (onClick)="goToEnrollmentPage()"
-              type="button"
-            ></p-button>
+              <p-button
+                [label]="isSignUp() ? 'Accedi ora' : 'Registrati ora'"
+                styleClass="p-button-text"
+                (onClick)="goToEnrollmentPage()"
+                type="button"
+              ></p-button>
+            </div>
           </form>
           }
         </div>
