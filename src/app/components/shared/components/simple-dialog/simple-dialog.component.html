@@ -1,0 +1,32 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [resizable]="false"
+  [styleClass]="getStyleClass()"
+  [baseZIndex]="9999"
+  [closable]="false"
+  [style]="getSize()"
+  [draggable]="false"
+  [focusOnShow]="false"
+  id="simpleDialog"
+>
+  <ng-template pTemplate="header">
+    <div class="flex justify-content-between align-items-center w-full">
+      <h2>{{ header() }}</h2>
+      @if(icon()){
+      <p-button styleClass="p-button-text" (onClick)="close()">
+        <i [class]="'pi ' + icon() + ' mat-icon'"></i>
+      </p-button>
+      }
+    </div>
+  </ng-template>
+  <div>
+    <ng-content class=""></ng-content>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="mt-2">
+      <ng-content select="[buttons]"></ng-content>
+    </div>
+  </ng-template>
+</p-dialog>

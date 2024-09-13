@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-
-import { of } from 'rxjs';
-import { RegisteredUser, UsersSearchPayload } from '../../models/user.model';
+import { of, throwError } from 'rxjs';
+import {
+  RegisteredUser,
+  UserBaseModel,
+  UsersSearchPayload,
+} from '../../models/user.model';
 import { LoaderStatusService } from '../utils/loader-status.service';
 import { StorageService } from '../utils/storage.service';
 
@@ -9,34 +12,93 @@ import { StorageService } from '../utils/storage.service';
   providedIn: 'root',
 })
 export class UsersService {
-  // private readonly _baseUrl = 'Users';
+  private users: RegisteredUser[] = []; // Store users in memory
 
   constructor(
-    private _storageService: StorageService, // private _http: HttpClient
+    private _storageService: StorageService,
     private _loaderService: LoaderStatusService
   ) {}
 
   public getUsers(searchPayload: UsersSearchPayload) {
-    //Simulazione loader, di solito si utilizza un interceptor
     this._loaderService.show();
-    let users: RegisteredUser[] = this._storageService.get('users');
-    if (!users) {
-      this._storageService.set('users', []);
-    }
-    users = this._storageService.get('users');
+    this.users = this._storageService.get('users') || [];
+    const filteredUsers = this.users.filter((user) => {
+      let match = true;
+      if (searchPayload.searchText) {
+        match =
+          user.email.includes(searchPayload.searchText!) ||
+          user.username.includes(searchPayload.searchText!);
+      }
+      if (searchPayload.userType != null) {
+        match = match && user.userType === searchPayload.userType;
+      }
+      return match;
+    });
+    this._loaderService.hide();
+    return of(filteredUsers);
+  }
 
-    if (!!searchPayload.searchText) {
-      users = users.filter(
-        (el) =>
-          el.email.includes(searchPayload.searchText!) ||
-          el.username.includes(searchPayload.searchText!)
+  public update(user: RegisteredUser) {
+    this._loaderService.show();
+
+    this.users = this._storageService.get('users') || [];
+    const foundIndex = this.users.findIndex((el) => el.id === user.id);
+    if (foundIndex !== -1) {
+      this.users[foundIndex] = { ...this.users[foundIndex], ...user };
+      this._storageService.set('users', this.users);
+      this._loaderService.hide();
+
+      return of(true);
+    } else {
+      this._loaderService.hide();
+
+      return throwError(
+        () =>
+          new Error(
+            "Operazione fallita, l'utente inserito non è presente nel sistema."
+          )
       );
     }
-    if (searchPayload.userType) {
-      users = users.filter((el) => el.userType == searchPayload.userType);
-    }
-    this._loaderService.hide();
+  }
 
-    return of(users);
+  public add(user: UserBaseModel) {
+    this._loaderService.show();
+
+    this.users = this._storageService.get('users') || [];
+    const foundUser = this.users.find((el) => el.email === user.email);
+    if (foundUser) {
+      this._loaderService.hide();
+      return throwError(() => new Error('Email già presente nel sistema'));
+    } else {
+      const newUser = {
+        ...user,
+        password: 'TEMPORARYPASSWORD',
+        id:
+          this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 0,
+      };
+      this.users.push(newUser);
+      this._storageService.set('users', this.users);
+      this._loaderService.hide();
+      return of(true);
+    }
+  }
+  public delete(user: RegisteredUser) {
+    this._loaderService.show();
+
+    this.users = this._storageService.get('users') || [];
+    const userIdx = this.users.findIndex((el) => el.id === user.id);
+    if (userIdx) {
+      this.users.splice(userIdx, 1);
+
+      this._storageService.set('users', this.users);
+      this._loaderService.hide();
+      return of(true);
+    } else {
+      this._loaderService.hide();
+      return throwError(
+        () =>
+          new Error("Operazione fallita, l'utente non è presente nel sistema")
+      );
+    }
   }
 }

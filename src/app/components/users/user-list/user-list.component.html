@@ -10,7 +10,16 @@
     <ng-template pTemplate="caption">
       <div class="flex justify-content-between">
         <h2>Lista utenti registrati</h2>
-        <div class="flex gap-2">
+        <div class="flex gap-2 align-items-end">
+          <app-dropdown
+            class="w-full mr-2"
+            style="min-width: 256px"
+            [options]="userTypes()"
+            [showClear]="true"
+            label="Tipologia utente"
+            [(ngModel)]="searchPayload().userType"
+            (onChangeValue)="search()"
+          ></app-dropdown>
           <div class="flex">
             <input
               class="input-field"
@@ -20,13 +29,14 @@
               placeholder="Ricerca per nome o email"
               (keydown.enter)="search()"
             />
+
             <p-button
               icon="pi pi-search"
               styleClass="search-button"
               (onClick)="search()"
             />
           </div>
-          <button class="p-button" (click)="onAdd()">
+          <button class="p-button" style="min-width: 136px" (click)="onAdd()">
             <div class="flex gap-2">
               <span class="font-semibold">Aggiungi</span>
 
@@ -61,6 +71,22 @@
             [severity]="getUserType(user.userType).severity"
           />
         </td>
+
+        <td>
+          <div class="flex gap-2 justify-content-center">
+            <p-button
+              icon="pi pi-pencil"
+              [text]="true"
+              (onClick)="onEdit(user)"
+            />
+            <p-button
+              styleClass="p-button p-button-danger p-button-text"
+              icon="pi pi-trash"
+              severity="danger"
+              (onClick)="onDelete(user)"
+            />
+          </div>
+        </td>
       </tr>
     </ng-template>
 
@@ -78,3 +104,23 @@
     </ng-template>
   </p-table>
 </div>
+
+<app-edit-user-dialog
+  #addEditUserDialog
+  (onSave)="onSave($event)"
+></app-edit-user-dialog>
+
+<app-alert-dialog
+  #deleteDialog
+  header="Conferma eliminazione utente"
+  [message]="
+    'Sei sicuro di voler eliminare <strong>' +
+    deleteItem()?.username +
+    '</strong> ?'
+  "
+  [showRemove]="true"
+  [showWarning]="false"
+  [showConfirmBtn]="false"
+  [showUndoBtn]="true"
+  (confirm)="onDeleteConfirm()"
+></app-alert-dialog>

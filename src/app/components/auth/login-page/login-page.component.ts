@@ -9,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { UserType } from '../../../models/user.model';
 import {
   AuthService,
   authStorageKey,
@@ -17,6 +16,7 @@ import {
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
 import { StorageService } from '../../../services/utils/storage.service';
 import { RootRoutes } from '../../../utils/root-routes';
+import { UserUtils } from '../../../utils/UserUtils';
 import { DropdownComponent } from '../../shared/components/input/dropdown/dropdown.component';
 import { InputPasswordComponent } from '../../shared/components/input/input-password/input-password.component';
 import { TextInputComponent } from '../../shared/components/input/text-input/text-input.component';
@@ -50,16 +50,7 @@ export class LoginPageComponent {
     private _storageService: StorageService
   ) {
     this.loginForm.set(this._getForm());
-    this.userTypes.set([
-      {
-        label: 'Cliente',
-        value: UserType.Customer,
-      },
-      {
-        label: 'Fornitore',
-        value: UserType.Supplier,
-      },
-    ]);
+    this.userTypes.set(UserUtils.userRoles);
   }
 
   ngOnInit() {
@@ -110,8 +101,8 @@ export class LoginPageComponent {
     }
   }
 
-  private async _onLoginError(msg: any) {
-    this._operationStatusHandler.error(msg.message);
+  private async _onLoginError(ex: any) {
+    this._operationStatusHandler.error(ex.message);
   }
 
   public goToEnrollmentPage() {

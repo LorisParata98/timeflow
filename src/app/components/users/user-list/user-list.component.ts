@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { SelectItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
@@ -13,7 +20,11 @@ import {
 } from '../../../models/user.model';
 import { UsersService } from '../../../services/api/users.service';
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
+import { UserUtils } from '../../../utils/UserUtils';
+import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
 import { EmptyMessageComponent } from '../../shared/components/empty-message/empty-message.component';
+import { DropdownComponent } from '../../shared/components/input/dropdown/dropdown.component';
+import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 
 interface Column {
   key: string;
@@ -32,16 +43,26 @@ interface Column {
     CommonModule,
     InputTextModule,
     FormsModule,
+    EditUserDialogComponent,
+    AlertDialogComponent,
+    DropdownComponent,
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
 export class UserListComponent implements OnInit {
+  public addEditUserDialog =
+    viewChild<EditUserDialogComponent>('addEditUserDialog');
+  public deleteDialog = viewChild<AlertDialogComponent>('deleteDialog');
+
+  public deleteItem = signal<RegisteredUser | undefined>(undefined);
   public items = signal<RegisteredUser[]>([]);
   public cols = signal<Column[]>([]);
   public searchPayload = signal<UsersSearchPayload>({
     searchText: undefined,
   });
+
+  public userTypes = signal<SelectItem[]>([]);
 
   constructor(
     private _usersService: UsersService,
@@ -54,6 +75,8 @@ export class UserListComponent implements OnInit {
       { key: 'userType', label: 'Tipologia utente', width: '30' },
       { key: 'actions', label: 'Azioni', width: '10' },
     ]);
+
+    this.userTypes.set(UserUtils.userRoles);
   }
   ngOnInit(): void {
     this.search();
@@ -93,5 +116,63 @@ export class UserListComponent implements OnInit {
         return { label: 'Fornitore', severity: 'secondary' };
     }
   }
-  public onAdd() {}
+  public onAdd() {
+    this.addEditUserDialog()?.show();
+  }
+
+  public onEdit(user: RegisteredUser) {
+    this.addEditUserDialog()?.show(user);
+  }
+  public onDelete(user: RegisteredUser) {
+    this.deleteItem.set(user);
+    this.deleteDialog()?.show();
+  }
+
+  public onSave(item: RegisteredUser) {
+    if (item.id) {
+      this._usersService
+        .update(item)
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe({
+          next: () => {
+            this._operationStatusHandler.success(
+              'Utente aggiornato con successo'
+            );
+            this.addEditUserDialog()?.close();
+            this.search();
+          },
+          error: (ex) => this._operationStatusHandler.error(ex.message),
+        });
+    } else {
+      this._usersService
+        .add(item)
+        .pipe(takeUntilDestroyed(this._destroyRef))
+        .subscribe({
+          next: () => {
+            this._operationStatusHandler.success(
+              'Utente aggiunto con successo'
+            );
+            this.addEditUserDialog()?.close();
+
+            this.search();
+          },
+          error: (ex) => this._operationStatusHandler.error(ex.message),
+        });
+    }
+  }
+
+  public onDeleteConfirm() {
+    this._usersService
+      .delete(this.deleteItem()!)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: () => {
+          this._operationStatusHandler.success('Utente eliminato con successo');
+          this.deleteItem.set(undefined);
+          this.deleteDialog()?.close();
+          this.search();
+        },
+        error: (ex) => this._operationStatusHandler.error(ex.message),
+      });
+  }
 }

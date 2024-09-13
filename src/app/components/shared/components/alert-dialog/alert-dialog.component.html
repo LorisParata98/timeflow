@@ -1,0 +1,44 @@
+<app-simple-dialog
+  #dialog
+  [closable]="closable()"
+  [hideCloseButton]="hideCloseButton()"
+  [header]="header()"
+  [icon]="showWarning() ? 'pi-warning' : 'pi-times'"
+  [size]="'xs'"
+>
+  @if(message()){
+  <div [class]="'mt-4' + containerClass()">
+    <div [class]="'flex justify-content-between align-items-center'">
+      <p class="w-full text-center" [innerHTML]="message()"></p>
+    </div>
+  </div>
+  }
+
+  <ng-content select="[innerContent]"> </ng-content>
+
+  <div buttons class="flex justify-content-between align-items-center">
+    @if (showUndoBtn()) {
+    <p-button
+      [label]="'Annulla'"
+      [text]="true"
+      type="button"
+      (onClick)="close()"
+    ></p-button>
+    }
+
+    <ng-content select="[actions]"></ng-content>
+    @if (showConfirmBtn()) {
+    <p-button
+      [label]="btnText()"
+      [styleClass]="btnClass()"
+      (onClick)="onConfirm()"
+    ></p-button>
+    } @if(showRemove()){
+    <p-button
+      [label]="btnTextremove()"
+      [styleClass]="btnClass()"
+      (onClick)="onConfirm()"
+    ></p-button>
+    }
+  </div>
+</app-simple-dialog>

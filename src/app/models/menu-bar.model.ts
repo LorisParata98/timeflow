@@ -1,5 +1,3 @@
-import { UserRole } from './auth.model';
-
 export interface MenuItem {
   id: string;
   label: string;
@@ -11,10 +9,7 @@ export interface MenuItem {
   disabled?: boolean | ((data?: any) => boolean);
 }
 export interface MenubarItem extends MenuItem {
-  // icon?: IconDefinition;
   icon?: string;
   children?: MenuItem[];
-  roles?: UserRole[];
   description?: string;
-  idPosition?: number;
 }
