@@ -34,7 +34,7 @@ export class LayoutService {
         },
       },
       {
-        label: 'Recensioni',
+        label: 'Fornitori',
         icon: 'star',
         id: 'es3',
 

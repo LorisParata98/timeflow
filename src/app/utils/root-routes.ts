@@ -4,4 +4,5 @@ export enum RootRoutes {
   SIGNUP = 'signup',
   REVIEWS = 'reviews',
   DASHBOARD = 'dashboard',
+  SUPPLIERS = 'suppliers',
 }

@@ -1,0 +1,88 @@
+<div class="flex flex-column px-2">
+  <h1>Pannello di controllo</h1>
+  <div class="card">
+    <div class="flex flex-column gap-4">
+      <p-table
+        #dt
+        dataKey="email"
+        [columns]="cols()"
+        [value]="items()"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [globalFilterFields]="['username', 'email']"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between">
+            <h2>Lista fornitori</h2>
+            <div class="flex gap-2 align-items-end">
+              <div class="flex">
+                <input
+                  class="input-field"
+                  pInputText
+                  type="text"
+                  [(ngModel)]="searchPayload().searchText"
+                  placeholder="Ricerca per nome o email"
+                  (keydown.enter)="search()"
+                />
+
+                <p-button
+                  icon="pi pi-search"
+                  styleClass="search-button"
+                  (onClick)="search()"
+                />
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            @for (col of columns; track $index) {
+            <th [width]="col.width + '%'">
+              {{ col.label }}
+            </th>
+            }
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-supplier>
+          <tr>
+            <td>
+              {{ supplier.businessName }}
+            </td>
+
+            <td>
+              <p-rating
+                [(ngModel)]="supplier.meanValutation"
+                [cancel]="false"
+                [readonly]="true"
+              />
+            </td>
+
+            <td>
+              <div class="flex gap-2 justify-content-end">
+                <p-button
+                  icon="pi pi-eye"
+                  [text]="true"
+                  label="Visualizza dettaglio"
+                  (onClick)="goToDetail(supplier)"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [colSpan]="cols().length">
+              <app-empty-message
+                [title]="'Nessun elemento trovato'"
+                [message]="
+                  'Nel sistema non è presente nessun utente che corrisponde ai criteri di ricerca inseriti '
+                "
+              ></app-empty-message>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

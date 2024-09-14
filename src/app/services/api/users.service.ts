@@ -26,8 +26,8 @@ export class UsersService {
       let match = true;
       if (searchPayload.searchText) {
         match =
-          user.email.includes(searchPayload.searchText!) ||
-          user.username.includes(searchPayload.searchText!);
+          user.email.includes(searchPayload.searchText!.toLowerCase()) ||
+          user.username.includes(searchPayload.searchText!.toLowerCase());
       }
       if (searchPayload.userType != null) {
         match = match && user.userType === searchPayload.userType;
