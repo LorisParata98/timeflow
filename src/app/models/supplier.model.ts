@@ -7,6 +7,8 @@ export interface Supplier extends IdAttribute {
 
 export interface SupplierReview extends IdAttribute {
   supplierId: number;
+  userEmail: string;
+  date: string;
   value: number;
-  body: number;
+  body: string;
 }

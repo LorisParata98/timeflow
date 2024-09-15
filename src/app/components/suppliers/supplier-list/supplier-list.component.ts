@@ -70,7 +70,7 @@ export class SupplierListComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.items.set(
-            res.map((el) => ({
+            res.map((el: Supplier) => ({
               ...el,
               meanValutation: Math.round(el.meanValutation),
             }))

@@ -1,0 +1,34 @@
+@if(!!form()){
+
+<form [formGroup]="form()!" class="grid w-full mt-4 px-2">
+  <h3>
+    {{
+      form()?.get("id")?.value != null
+        ? "Modifica recensione"
+        : "Aggiungi una nuova recensione"
+    }}
+  </h3>
+  <div class="col-12">
+    <p-rating formControlName="value" [cancel]="false" />
+  </div>
+  <div class="col-12">
+    <app-textarea-input
+      label="Commento"
+      for="body"
+      formControlName="body"
+      [control]="form()?.get('body')!"
+      [required]="true"
+    ></app-textarea-input>
+  </div>
+
+  <div class="w-full flex justify-content-end mt-4">
+    <p-button
+      [label]="form()?.get('id')?.value != null ? 'Salva' : 'Aggiungi'"
+      [disabled]="form()?.invalid"
+      (onClick)="onAdd()"
+    >
+    </p-button>
+  </div>
+</form>
+
+}

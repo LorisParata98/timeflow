@@ -18,7 +18,7 @@ export class LayoutService {
       {
         label: 'Login',
         icon: 'login',
-        id: 'es1',
+        id: 'login',
 
         command: () => {
           this._router.navigate(['/']);
@@ -39,7 +39,7 @@ export class LayoutService {
         id: 'es3',
 
         command: () => {
-          this._router.navigate([RootRoutes.REVIEWS]);
+          this._router.navigate([RootRoutes.SUPPLIERS]);
         },
       },
 
@@ -50,7 +50,6 @@ export class LayoutService {
 
         command: () => {
           this._authService.logout();
-          this._router.navigate(['/']);
         },
       },
     ];
@@ -59,8 +58,9 @@ export class LayoutService {
   getMenuItems() {
     const userInfo = this._authService.authData;
     return this.menuItems.filter((item) => {
-      return item;
-      // return item.roles.includes(role!);
+      return item.id == 'login' && this._authService.authData?.email
+        ? false
+        : item;
     });
   }
 }

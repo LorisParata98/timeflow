@@ -11,8 +11,6 @@ import { TreeModule } from 'primeng/tree';
 import { RegisteredUser } from '../../../models/user.model';
 import { AuthService } from '../../../services/api/auth.service';
 import { LayoutService } from '../../../services/utils/app.layout.service';
-import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
-import { StorageService } from '../../../services/utils/storage.service';
 
 export interface CombineMenu {}
 @Component({
@@ -42,8 +40,6 @@ export class AppTopBarComponent {
   public isUserDmg = signal<boolean>(false);
   constructor(
     private _authService: AuthService,
-    private _operationStatusHandler: OperationStatusHandler,
-    private _storageService: StorageService,
     private _router: Router,
     private _layoutService: LayoutService
   ) {

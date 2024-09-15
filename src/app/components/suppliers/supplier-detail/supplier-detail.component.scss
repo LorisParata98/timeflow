@@ -1,25 +1,22 @@
-.input-field {
-  height: 44px;
-  border-radius: 8px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  min-width: 256px;
-  border: 2px solid var(--surface-200);
-  padding-inline: 1rem;
-}
-input:focus {
-  outline: none;
-  border: 2px solid var(--primary-100);
-  border-right-color: transparent;
-}
-
-::ng-deep {
-  .search-button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  ::ng-deep {
+    .edit-btn .p-button.p-button-icon-only {
+      height: 22px;
+      width: 22px;
+      padding: 10px;
+      margin: 0;
+    }
   }
 }
-
-button {
-  height: 44px;
+::ng-deep {
+  .breadcrumb-item {
+    &:hover {
+      font-weight: 600;
+    }
+  }
 }

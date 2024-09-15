@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { of, tap, throwError } from 'rxjs';
 import { RegisteredUser, UserBaseModel } from '../../models/user.model';
-import { RootRoutes } from '../../utils/root-routes';
 import { EncryptService } from '../utils/encrypt.service';
 import { StorageService } from '../utils/storage.service';
 
@@ -94,6 +93,6 @@ export class AuthService {
 
   public logout() {
     this._storageService.clear();
-    this._router.navigate([RootRoutes.HOME]);
+    this._router.navigate(['/']);
   }
 }

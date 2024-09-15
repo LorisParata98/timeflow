@@ -1,0 +1,12 @@
+[
+  { "id": 1, "meanValutation": 0, "businessName": "Tech Solutions SRL" },
+  { "id": 2, "meanValutation": 0, "businessName": "Innovative Hardware SPA" },
+  { "id": 3, "meanValutation": 0, "businessName": "Smart Systems SRL" },
+  { "id": 4, "meanValutation": 0, "businessName": "Green Energy SPA" },
+  { "id": 5, "meanValutation": 0, "businessName": "Digital Future SRL" },
+  { "id": 6, "meanValutation": 0, "businessName": "SecureTech SRL" },
+  { "id": 7, "meanValutation": 0, "businessName": "Global Trading SPA" },
+  { "id": 8, "meanValutation": 0, "businessName": "CloudNet Solutions SRL" },
+  { "id": 9, "meanValutation": 0, "businessName": "EcoBuilders SPA" },
+  { "id": 10, "meanValutation": 0, "businessName": "IT Powerhouse SRL" }
+]

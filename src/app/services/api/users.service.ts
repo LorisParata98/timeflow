@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import {
@@ -5,6 +6,7 @@ import {
   UserBaseModel,
   UsersSearchPayload,
 } from '../../models/user.model';
+import { EncryptService } from '../utils/encrypt.service';
 import { LoaderStatusService } from '../utils/loader-status.service';
 import { StorageService } from '../utils/storage.service';
 
@@ -12,17 +14,29 @@ import { StorageService } from '../utils/storage.service';
   providedIn: 'root',
 })
 export class UsersService {
-  private users: RegisteredUser[] = []; // Store users in memory
-
   constructor(
     private _storageService: StorageService,
-    private _loaderService: LoaderStatusService
-  ) {}
+    private _loaderService: LoaderStatusService,
+    private _encryptService: EncryptService,
+    private _http: HttpClient
+  ) {
+    this._http
+      .get<RegisteredUser[]>('mock_data/users.json')
+      .subscribe((res) => {
+        this._storageService.set(
+          'users',
+          res.map((el) => ({
+            ...el,
+            password: this._encryptService.encrypt(el.password),
+          }))
+        );
+      });
+  }
 
   public getUsers(searchPayload: UsersSearchPayload) {
     this._loaderService.show();
-    this.users = this._storageService.get('users') || [];
-    const filteredUsers = this.users.filter((user) => {
+    let users: RegisteredUser[] = this._storageService.get('users') || [];
+    const filteredUsers = users.filter((user) => {
       let match = true;
       if (searchPayload.searchText) {
         match =
@@ -41,13 +55,12 @@ export class UsersService {
   public update(user: RegisteredUser) {
     this._loaderService.show();
 
-    this.users = this._storageService.get('users') || [];
-    const foundIndex = this.users.findIndex((el) => el.id === user.id);
+    let users: RegisteredUser[] = this._storageService.get('users') || [];
+    const foundIndex = users.findIndex((el) => el.id === user.id);
     if (foundIndex !== -1) {
-      this.users[foundIndex] = { ...this.users[foundIndex], ...user };
-      this._storageService.set('users', this.users);
+      users[foundIndex] = { ...users[foundIndex], ...user };
+      this._storageService.set('users', users);
       this._loaderService.hide();
-
       return of(true);
     } else {
       this._loaderService.hide();
@@ -64,8 +77,8 @@ export class UsersService {
   public add(user: UserBaseModel) {
     this._loaderService.show();
 
-    this.users = this._storageService.get('users') || [];
-    const foundUser = this.users.find((el) => el.email === user.email);
+    let users: RegisteredUser[] = this._storageService.get('users') || [];
+    const foundUser = users.find((el) => el.email === user.email);
     if (foundUser) {
       this._loaderService.hide();
       return throwError(() => new Error('Email già presente nel sistema'));
@@ -73,11 +86,10 @@ export class UsersService {
       const newUser = {
         ...user,
         password: 'TEMPORARYPASSWORD',
-        id:
-          this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 0,
+        id: users.length > 0 ? users[users.length - 1].id + 1 : 0,
       };
-      this.users.push(newUser);
-      this._storageService.set('users', this.users);
+      users.push(newUser);
+      this._storageService.set('users', users);
       this._loaderService.hide();
       return of(true);
     }
@@ -85,12 +97,12 @@ export class UsersService {
   public delete(user: RegisteredUser) {
     this._loaderService.show();
 
-    this.users = this._storageService.get('users') || [];
-    const userIdx = this.users.findIndex((el) => el.id === user.id);
-    if (userIdx) {
-      this.users.splice(userIdx, 1);
+    let users: RegisteredUser[] = this._storageService.get('users') || [];
+    const userIdx = users.findIndex((el) => el.id === user.id);
+    if (userIdx > -1) {
+      users.splice(userIdx, 1);
 
-      this._storageService.set('users', this.users);
+      this._storageService.set('users', users);
       this._loaderService.hide();
       return of(true);
     } else {

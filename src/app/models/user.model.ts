@@ -1,8 +1,6 @@
 import { IdAttribute, SearchPayload } from './common.model';
 
-export interface RegisteredUser extends IdAttribute, UserBaseModel {
-  userType: UserType;
-}
+export interface RegisteredUser extends IdAttribute, UserBaseModel {}
 
 export interface UserBaseModel {
   email: string;

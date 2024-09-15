@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "supplierId": 1,
+    "value": 5,
+    "body": "Ottimo servizio, sempre puntuali e disponibili a risolvere qualsiasi problema.",
+    "date": "2024-09-01T10:15:00Z",
+    "userEmail": "user1@example.com"
+  },
+  {
+    "id": 2,
+    "supplierId": 1,
+    "value": 4,
+    "body": "Molto competenti, ma ci sono stati alcuni piccoli ritardi nelle consegne.",
+    "date": "2024-09-03T14:30:00Z",
+    "userEmail": "user2@example.com"
+  },
+  {
+    "id": 3,
+    "supplierId": 2,
+    "value": 4,
+    "body": "Buona esperienza complessiva, ma potrebbe migliorare il supporto tecnico.",
+    "date": "2024-09-05T09:45:00Z",
+    "userEmail": "user3@example.com"
+  },
+  {
+    "id": 4,
+    "supplierId": 2,
+    "value": 3,
+    "body": "Qualche disguido iniziale, ma alla fine il prodotto è di qualità.",
+    "date": "2024-09-07T16:10:00Z",
+    "userEmail": "user4@example.com"
+  },
+  {
+    "id": 5,
+    "supplierId": 3,
+    "value": 5,
+    "body": "Eccellente. Servizio impeccabile e tecnologie all'avanguardia.",
+    "date": "2024-09-09T11:05:00Z",
+    "userEmail": "user5@example.com"
+  },
+  {
+    "id": 6,
+    "supplierId": 3,
+    "value": 5,
+    "body": "Non avrei potuto chiedere di meglio. Supporto e consegne rapidissime!",
+    "date": "2024-09-11T08:20:00Z",
+    "userEmail": "user6@example.com"
+  },
+  {
+    "id": 7,
+    "supplierId": 4,
+    "value": 3,
+    "body": "Alcune difficoltà con il servizio clienti, ma la qualità dei prodotti è buona.",
+    "date": "2024-09-13T14:55:00Z",
+    "userEmail": "user7@example.com"
+  },
+  {
+    "id": 8,
+    "supplierId": 4,
+    "value": 2,
+    "body": "Ritardi costanti e poca chiarezza nelle comunicazioni.",
+    "date": "2024-09-15T10:00:00Z",
+    "userEmail": "user8@example.com"
+  },
+  {
+    "id": 9,
+    "supplierId": 5,
+    "value": 4,
+    "body": "Soluzioni innovative, ma i prezzi potrebbero essere più competitivi.",
+    "date": "2024-09-17T13:40:00Z",
+    "userEmail": "user9@example.com"
+  },
+  {
+    "id": 10,
+    "supplierId": 5,
+    "value": 4,
+    "body": "Molto soddisfatto del prodotto finale, ma i tempi di risposta sono lenti.",
+    "date": "2024-09-19T15:25:00Z",
+    "userEmail": "user10@example.com"
+  },
+  {
+    "id": 11,
+    "supplierId": 6,
+    "value": 4,
+    "body": "Buon fornitore, specialmente per la sicurezza. Un po' caro ma vale la pena.",
+    "date": "2024-09-21T12:30:00Z",
+    "userEmail": "user11@example.com"
+  },
+  {
+    "id": 12,
+    "supplierId": 6,
+    "value": 5,
+    "body": "Assistenza impeccabile e prodotti di qualità. Consigliato!",
+    "date": "2024-09-23T09:50:00Z",
+    "userEmail": "user12@example.com"
+  },
+  {
+    "id": 13,
+    "supplierId": 7,
+    "value": 3,
+    "body": "Servizio nella media. Hanno bisogno di migliorare la comunicazione.",
+    "date": "2024-09-25T14:00:00Z",
+    "userEmail": "user13@example.com"
+  },
+  {
+    "id": 14,
+    "supplierId": 7,
+    "value": 4,
+    "body": "Buona qualità, ma il supporto tecnico a volte è lento a rispondere.",
+    "date": "2024-09-27T16:30:00Z",
+    "userEmail": "user14@example.com"
+  },
+  {
+    "id": 15,
+    "supplierId": 8,
+    "value": 5,
+    "body": "Assolutamente il miglior fornitore. Professionalità e innovazione garantiti.",
+    "date": "2024-09-29T11:20:00Z",
+    "userEmail": "user15@example.com"
+  },
+  {
+    "id": 16,
+    "supplierId": 8,
+    "value": 4,
+    "body": "Buon servizio, anche se potrebbero ottimizzare i tempi di consegna.",
+    "date": "2024-10-01T13:05:00Z",
+    "userEmail": "user16@example.com"
+  },
+  {
+    "id": 17,
+    "supplierId": 9,
+    "value": 4,
+    "body": "Soluzioni ecologiche interessanti, ma alcune implementazioni richiedono più tempo.",
+    "date": "2024-10-03T10:30:00Z",
+    "userEmail": "user17@example.com"
+  },
+  {
+    "id": 18,
+    "supplierId": 9,
+    "value": 3,
+    "body": "Servizio clienti da migliorare, ma i prodotti sono validi.",
+    "date": "2024-10-05T09:15:00Z",
+    "userEmail": "user18@example.com"
+  },
+  {
+    "id": 19,
+    "supplierId": 10,
+    "value": 4,
+    "body": "Competenti e disponibili, un buon partner per l'informatica.",
+    "date": "2024-10-07T11:45:00Z",
+    "userEmail": "user19@example.com"
+  },
+  {
+    "id": 20,
+    "supplierId": 10,
+    "value": 4,
+    "body": "Hanno risolto tutti i problemi in tempo utile. Molto soddisfatto.",
+    "date": "2024-10-09T14:50:00Z",
+    "userEmail": "user20@example.com"
+  }
+]

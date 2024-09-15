@@ -5,6 +5,7 @@ import { AppDefaultLayoutComponent } from './components/layout/default-layout/ap
 import { AppEmptyLayoutComponent } from './components/layout/empty-layout/app-empty-layout.component';
 import { SupplierDetailComponent } from './components/suppliers/supplier-detail/supplier-detail.component';
 import { SupplierListComponent } from './components/suppliers/supplier-list/supplier-list.component';
+import { authGuard } from './guards/auth.guard';
 import { RootRoutes } from './utils/root-routes';
 
 export const routes: Routes = [
@@ -13,12 +14,14 @@ export const routes: Routes = [
     component: AppEmptyLayoutComponent,
     children: [
       {
-        path: '',
+        path: RootRoutes.LOGIN,
         component: LoginPageComponent,
       },
     ],
   },
+
   {
+    canActivate: [authGuard],
     path: '',
     component: AppDefaultLayoutComponent,
     children: [
@@ -34,5 +37,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+
+  {
+    path: '**',
+    redirectTo: RootRoutes.LOGIN,
   },
 ];

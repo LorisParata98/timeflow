@@ -13,6 +13,7 @@ import {
   AuthService,
   authStorageKey,
 } from '../../../services/api/auth.service';
+import { SuppliersService } from '../../../services/api/suppliers.service';
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
 import { StorageService } from '../../../services/utils/storage.service';
 import { RootRoutes } from '../../../utils/root-routes';
@@ -46,6 +47,7 @@ export class LoginPageComponent {
     private _router: Router,
     private _fb: FormBuilder,
     private _authService: AuthService,
+    private _suppliersService: SuppliersService,
     private _operationStatusHandler: OperationStatusHandler,
     private _storageService: StorageService
   ) {
@@ -80,8 +82,10 @@ export class LoginPageComponent {
               'Registrazione effettuata con successo, effettua il login e accedi alla piattaforma'
             );
             this.isSignUp.set(false);
+
+            this.loginForm.set(this._getForm());
             this.loginForm.update((oldValue) => {
-              oldValue?.reset();
+              oldValue?.get('email')?.setValue(formData.email);
               return oldValue;
             });
           },
@@ -109,19 +113,18 @@ export class LoginPageComponent {
     this.isSignUp.update((oldValue) => !oldValue);
     if (this.isSignUp()) {
       this.loginForm.update((oldValue) => {
-        oldValue
-          ?.get('username')
-          ?.setValidators(this.isSignUp() ? [Validators.required] : []);
-        oldValue
-          ?.get('userType')
-          ?.setValidators(this.isSignUp() ? [Validators.required] : []);
+        oldValue?.get('username')?.setValidators([Validators.required]);
+        oldValue?.get('userType')?.setValidators([Validators.required]);
         oldValue?.updateValueAndValidity();
         return oldValue;
       });
     }
   }
 
-  private _handleLogin() {
+  private async _handleLogin() {
+    if (!this._storageService.get('suppliers')) {
+      await this._suppliersService._loadSuppliersInStorage();
+    }
     this._router.navigate([RootRoutes.DASHBOARD]);
   }
 }
