@@ -64,10 +64,10 @@ export class LoginPageComponent {
 
   private _getForm(): FormGroup {
     return this._fb.group({
-      username: [null],
+      username: [null, this.isSignUp() ? [Validators.required] : []],
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required]],
-      userType: [null],
+      userType: [null, this.isSignUp() ? [Validators.required] : []],
     });
   }
 
@@ -109,16 +109,9 @@ export class LoginPageComponent {
     this._operationStatusHandler.error(ex.message);
   }
 
-  public goToEnrollmentPage() {
+  public changeForm() {
     this.isSignUp.update((oldValue) => !oldValue);
-    if (this.isSignUp()) {
-      this.loginForm.update((oldValue) => {
-        oldValue?.get('username')?.setValidators([Validators.required]);
-        oldValue?.get('userType')?.setValidators([Validators.required]);
-        oldValue?.updateValueAndValidity();
-        return oldValue;
-      });
-    }
+    // this.loginForm.set(this._getForm());
   }
 
   private async _handleLogin() {

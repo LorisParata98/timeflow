@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { of, tap, throwError } from 'rxjs';
 import { RegisteredUser, UserBaseModel } from '../../models/user.model';
+import { RootRoutes } from '../../utils/root-routes';
 import { EncryptService } from '../utils/encrypt.service';
 import { StorageService } from '../utils/storage.service';
 
@@ -92,7 +93,8 @@ export class AuthService {
   }
 
   public logout() {
-    this._storageService.clear();
-    this._router.navigate(['/']);
+    //Di solito si svuota l'intero storage, ma per mantenere gli utenti inseriti rimuovo soltanto i dati dell'utente loggato
+    this._storageService.set('authData', null);
+    this._router.navigate([RootRoutes.LOGIN]);
   }
 }

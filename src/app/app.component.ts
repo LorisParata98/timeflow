@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
+import { UsersService } from './services/api/users.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,7 @@ import { ToastModule } from 'primeng/toast';
 })
 export class AppComponent {
   title = 'timeflow';
+  constructor(private userService: UsersService) {
+    this.userService.loadDefaultUsers();
+  }
 }

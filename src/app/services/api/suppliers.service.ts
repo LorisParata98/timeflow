@@ -101,11 +101,15 @@ export class SuppliersService {
     this._loaderService.show();
     let reviews = this._storageService.get('reviews') || [];
 
-    const filteredReviews = reviews.filter(
+    const filteredReviews: SupplierReview[] = reviews.filter(
       (review: SupplierReview) => review.supplierId == supplierId
     );
     this._loaderService.hide();
-    return of(filteredReviews);
+    return of(
+      filteredReviews.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      )
+    );
   }
 
   public update(item: SupplierReview) {

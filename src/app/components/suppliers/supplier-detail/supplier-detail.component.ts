@@ -61,7 +61,7 @@ export class SupplierDetailComponent implements OnInit {
   ) {
     this.breadcrumbs.set([
       { icon: 'pi pi-home', route: RootRoutes.DASHBOARD },
-      { label: 'Components', route: RootRoutes.SUPPLIERS },
+      { label: 'Lista fornitori', route: RootRoutes.SUPPLIERS },
     ]);
     this.authData = signal<RegisteredUser | undefined>(
       this._authService.authData

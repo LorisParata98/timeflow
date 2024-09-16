@@ -10,35 +10,35 @@ import { RootRoutes } from './utils/root-routes';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: RootRoutes.LOGIN,
     component: AppEmptyLayoutComponent,
     children: [
       {
-        path: RootRoutes.LOGIN,
+        path: '',
         component: LoginPageComponent,
       },
     ],
   },
-
   {
     canActivate: [authGuard],
-    path: '',
+    path: RootRoutes.DASHBOARD,
     component: AppDefaultLayoutComponent,
     children: [
       {
-        path: RootRoutes.DASHBOARD,
+        path: '',
         component: DashboardComponent,
-      },
-      {
-        path: RootRoutes.SUPPLIERS,
-        children: [
-          { path: '', component: SupplierListComponent },
-          { path: ':id', component: SupplierDetailComponent },
-        ],
       },
     ],
   },
-
+  {
+    canActivate: [authGuard],
+    path: RootRoutes.SUPPLIERS,
+    component: AppDefaultLayoutComponent,
+    children: [
+      { path: '', component: SupplierListComponent },
+      { path: ':id', component: SupplierDetailComponent },
+    ],
+  },
   {
     path: '**',
     redirectTo: RootRoutes.LOGIN,

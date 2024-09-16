@@ -20,17 +20,7 @@ export class UsersService {
     private _encryptService: EncryptService,
     private _http: HttpClient
   ) {
-    this._http
-      .get<RegisteredUser[]>('mock_data/users.json')
-      .subscribe((res) => {
-        this._storageService.set(
-          'users',
-          res.map((el) => ({
-            ...el,
-            password: this._encryptService.encrypt(el.password),
-          }))
-        );
-      });
+    this.loadDefaultUsers();
   }
 
   public getUsers(searchPayload: UsersSearchPayload) {
@@ -111,6 +101,25 @@ export class UsersService {
         () =>
           new Error("Operazione fallita, l'utente non è presente nel sistema")
       );
+    }
+  }
+
+  public loadDefaultUsers() {
+    if (
+      localStorage.getItem('users') == null ||
+      localStorage.getItem('users')!.length < 1
+    ) {
+      this._http
+        .get<RegisteredUser[]>('mock_data/users.json')
+        .subscribe((res) => {
+          this._storageService.set(
+            'users',
+            res.map((el) => ({
+              ...el,
+              password: this._encryptService.encrypt(el.password),
+            }))
+          );
+        });
     }
   }
 }

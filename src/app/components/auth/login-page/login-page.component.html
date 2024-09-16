@@ -24,7 +24,7 @@
             <h2>{{ isSignUp() ? "Registrazione" : "Login" }}</h2>
           </div>
 
-          @if (!!loginForm()) {
+          @if (loginForm()) {
 
           <form
             [formGroup]="loginForm()!"
@@ -111,8 +111,8 @@
               <p-button
                 [label]="isSignUp() ? 'Accedi ora' : 'Registrati ora'"
                 styleClass="p-button-text"
-                (onClick)="goToEnrollmentPage()"
-                type="button"
+                (onClick)="changeForm()"
+                [type]="'button'"
               ></p-button>
             </div>
           </form>

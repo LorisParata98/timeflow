@@ -11,16 +11,7 @@
   @if(!!form()){
 
   <form [formGroup]="form()!" class="grid w-full mt-4">
-    <div class="col-12 md:col-4">
-      <app-text-input
-        label="Email"
-        for="email"
-        formControlName="email"
-        [control]="form()?.get('email')!"
-        [required]="true"
-      ></app-text-input>
-    </div>
-    <div class="col-12 md:col-4">
+    <div class="col-12 md:col-6">
       <app-text-input
         label="Nome utente"
         for="username"
@@ -29,8 +20,17 @@
         [required]="true"
       ></app-text-input>
     </div>
+    <div class="col-12 md:col-6">
+      <app-text-input
+        label="Email"
+        for="email"
+        formControlName="email"
+        [control]="form()?.get('email')!"
+        [required]="true"
+      ></app-text-input>
+    </div>
 
-    <div class="col-12 md:col-4">
+    <div class="col-12 md:col-6">
       <app-dropdown
         class="w-full"
         [options]="userTypes()"
