@@ -111,7 +111,12 @@ export class LoginPageComponent {
 
   public changeForm() {
     this.isSignUp.update((oldValue) => !oldValue);
-    // this.loginForm.set(this._getForm());
+    this.loginForm.update((oldValue) => {
+      oldValue?.get('username')?.setValidators([Validators.required]);
+      oldValue?.get('userType')?.setValidators([Validators.required]);
+      oldValue?.updateValueAndValidity();
+      return oldValue;
+    });
   }
 
   private async _handleLogin() {

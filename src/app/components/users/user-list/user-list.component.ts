@@ -18,6 +18,7 @@ import {
   UsersSearchPayload,
   UserType,
 } from '../../../models/user.model';
+import { AuthService } from '../../../services/api/auth.service';
 import { UsersService } from '../../../services/api/users.service';
 import { OperationStatusHandler } from '../../../services/utils/operation-status.service';
 import { UserUtils } from '../../../utils/UserUtils';
@@ -56,6 +57,8 @@ export class UserListComponent implements OnInit {
   public deleteDialog = viewChild<AlertDialogComponent>('deleteDialog');
 
   public deleteItem = signal<RegisteredUser | undefined>(undefined);
+  public loggedUserData = signal<RegisteredUser | undefined>(undefined);
+
   public items = signal<RegisteredUser[]>([]);
   public cols = signal<Column[]>([]);
   public searchPayload = signal<UsersSearchPayload>({
@@ -67,8 +70,10 @@ export class UserListComponent implements OnInit {
   constructor(
     private _usersService: UsersService,
     private _destroyRef: DestroyRef,
+    private _authService: AuthService,
     private _operationStatusHandler: OperationStatusHandler
   ) {
+    this.loggedUserData.set(this._authService.authData);
     this.cols.set([
       { key: 'username', label: 'Nome utente', width: '30' },
       { key: 'email', label: 'Email', width: '30' },

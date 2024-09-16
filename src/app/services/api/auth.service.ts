@@ -71,7 +71,12 @@ export class AuthService {
     if (users.length > 0) {
       const foundUser = users.find((el) => el.email === user.email);
       if (foundUser) {
-        return throwError(() => new Error('Utente già presente trovato'));
+        return throwError(
+          () =>
+            new Error(
+              "Operazione negata, l'email inserita è già presente nel sistema."
+            )
+        );
       } else {
         users.push({
           ...user,

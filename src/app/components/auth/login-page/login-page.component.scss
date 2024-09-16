@@ -4,15 +4,13 @@
     object-fit: scale-down;
   }
 
-  .card {
-    max-width: 860px;
-  }
-
   #card-bg {
     background-image: url("/bg.png");
-    object-fit: scale-down;
     border-top-left-radius: 0.375rem;
     border-bottom-left-radius: 0.375rem;
+    height: 600px;
+    min-width: 320px;
+    background-position-x: right;
   }
 
   .form {

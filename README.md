@@ -9,7 +9,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Funzionamento
 
 - L'esercizio 1 è stato svolto nella schermata di Login;
-- L'esercizio 2 è accessibile al link `http://localhost:4200//dashboard` solo dopo aver effettuato l'accesso (route interne protette da guard)
-- L'esercizio 3 è accessibile al link `http://localhost:4200//suppliers` solo dopo aver effettuato l'accesso
+- L'esercizio 2 è accessibile al link `http://localhost:4200/dashboard` solo dopo aver effettuato l'accesso (route interne protette da guard)
+- L'esercizio 3 è accessibile al link `http://localhost:4200/suppliers` solo dopo aver effettuato l'accesso, è stata presa la scelta funzionale per la quale soltanto l'utente loggato può modificare/eliminare le proprie recensioni
 
 La navigazione delle schermate può essere fatta sfruttando il menu laterale
