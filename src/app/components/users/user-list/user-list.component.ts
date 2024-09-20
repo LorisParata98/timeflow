@@ -134,7 +134,7 @@ export class UserListComponent implements OnInit {
   }
 
   public onSave(item: RegisteredUser) {
-    if (item.id) {
+    if (item.id != null) {
       this._usersService
         .update(item)
         .pipe(takeUntilDestroyed(this._destroyRef))
