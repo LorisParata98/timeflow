@@ -1,23 +1,27 @@
 [
   {
+    "id": 0,
     "email": "customer1@example.com",
     "username": "customer1",
     "password": "password123",
     "userType": 0
   },
   {
+    "id": 1,
     "email": "supplier1@example.com",
     "username": "supplier1",
     "password": "password123",
     "userType": 1
   },
   {
+    "id": 2,
     "email": "customer2@example.com",
     "username": "customer2",
     "password": "password123",
     "userType": 0
   },
   {
+    "id": 3,
     "email": "supplier2@example.com",
     "username": "supplier2",
     "password": "password123",
