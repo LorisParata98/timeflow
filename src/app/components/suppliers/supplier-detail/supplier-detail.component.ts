@@ -121,7 +121,7 @@ export class SupplierDetailComponent implements OnInit {
       date: new Date().toISOString(),
       userEmail: this._authService.authData!.email,
     };
-    if (item.id) {
+    if (item.id != null) {
       this._suppliersService
         .update(review)
         .pipe(takeUntilDestroyed(this._destroyRef))
